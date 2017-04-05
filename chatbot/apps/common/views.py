@@ -27,6 +27,7 @@ class HomePageView(TemplateView):
 class MotionAIWebHookView(View):
     def post(self, request):
         form = MotionAIWebHookForm(request.POST)
+        print form.errors
         if form.is_valid():
             data = form.cleaned_data
             module_id = data['module_id']
