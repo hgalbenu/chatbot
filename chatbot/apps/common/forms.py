@@ -22,8 +22,8 @@ class MotionAIWebHookForm(forms.Form):
         # Check whether the given session token is valid.
         # The session token will be of the form `{bot_id}_custom_{user_id}`
         session = self.cleaned_data.get('session')
-        profile_id = int(session.split('_')[-1:])
-        if not UserProfile.objects.filter(id=profile_id).exists():
+        profile_id = session.split('_')[-1:]
+        if not UserProfile.objects.filter(id=int(profile_id)).exists():
             raise forms.ValidationError('Invalid session token.')
 
     def clean_moduleID(self):

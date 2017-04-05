@@ -39,6 +39,7 @@ class MotionAIWebHookView(View):
                 print reply_data, decimal.Decimal(reply_data)
                 reply_data = decimal.Decimal(reply_data)
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'date_of_birth':
+                # Convert the given string into an actual Date object
                 reply_data = timezone.datetime.strptime(reply_data, "%Y-%m-%dT%H:%M:%S.%fZ")
 
             # Use the session token sent by motion.ai in order to figure out which User's data to update.
@@ -47,6 +48,7 @@ class MotionAIWebHookView(View):
             profile = UserProfile.objects.filter(id=int(profile_id)).first()
 
             if profile is not None:
+                # Update profile accordingly.
                 setattr(profile, MODULE_ID_TO_FIELD_MAPPING[module_id], reply_data)
                 profile.save()
 
