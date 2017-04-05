@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
-# Create your views here.
+
+class MyProfileView(TemplateView):
+    template_name = 'profile.html'
+
+    def get_context_data(self, request, **kwargs):
+        return {
+            'user': request.user
+        }
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(request, **kwargs)
+        return self.render_to_response(context)

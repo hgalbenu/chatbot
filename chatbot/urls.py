@@ -17,10 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.decorators.csrf import csrf_exempt
 
-import apps.common.views as views
+import apps.common.views as common_views
+import apps.profiles.views as profile_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.HomePageView.as_view(), name='home-page'),
-    url(r'^motion-ai-hook/$', csrf_exempt(views.MotionAIWebHookView.as_view()), name='motion-ai-hook')
+    url(r'^$', common_views.HomePageView.as_view(), name='home-page'),
+    url(r'^motion-ai-hook/$', csrf_exempt(common_views.MotionAIWebHookView.as_view()), name='motion-ai-hook'),
+    url(r'^profile/$', profile_views.MyProfileView.as_view(), name='profile')
 ]
