@@ -27,6 +27,7 @@ class HomePageView(TemplateView):
 class MotionAIWebHookView(View):
     def post(self, request):
         form = MotionAIWebHookForm(request.POST)
+        print request.POST
         if form.is_valid():
             data = form.cleaned_data
             module_id = data['moduleID']
@@ -39,6 +40,7 @@ class MotionAIWebHookView(View):
                 reply_data = timezone.datetime.strptime(reply_data, "%Y-%m-%dT%H:%M:%S.%fZ")
 
             profile = UserProfile.objects.first()
+            print reply_data
             setattr(profile, MODULE_ID_TO_FIELD_MAPPING[module_id], reply_data)
             profile.save()
 

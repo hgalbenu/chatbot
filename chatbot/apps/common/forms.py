@@ -5,6 +5,7 @@ from chatbot.apps.profiles.constants import MODULE_ID_TO_FIELD_MAPPING
 
 
 class MotionAIWebHookForm(forms.Form):
+    # camelCase var names are frowned upon in Python, but motion.ai sends the fields as such.
     moduleID = forms.IntegerField()
     replyData = forms.CharField(required=False)
     session = forms.CharField()
