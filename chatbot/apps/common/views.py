@@ -44,7 +44,7 @@ class MotionAIWebHookView(View):
 
             # Use the session token sent by motion.ai in order to figure out which User's data to update.
             # The session token will be of the form `{bot_id}_custom_{user_id}`
-            profile_id = session.split('_')[-1:]
+            profile_id = session.split('_')[-1]
             profile = UserProfile.objects.filter(id=int(profile_id)).first()
 
             if profile is not None:
