@@ -19,5 +19,6 @@ class HomePage(TemplateView):
 
 class MotionAIWebHook(View):
     def post(self, request):
-        print '*' * 9000
+        print request.META
+        print request.body
         return HttpResponse(status=200, content='')
