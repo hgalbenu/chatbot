@@ -1,11 +1,11 @@
 # Create your views here.
 import json
 import decimal
+import urllib2
 
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
 
 from forms import MotionAIWebHookForm
 from chatbot.apps.profiles.models import UserProfile
@@ -36,8 +36,17 @@ class MotionAIWebHookView(View):
             session = data['session']
 
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'total_debt':
+                # Motion.ai supports multiple comma-separated values for integer type answers, however we'd
+                # like to use commas as separators for grouping thousands, if supplied.
+                # replyData will be a list in this case, so fallback to the raw reply supplied by out bot.
+                # This is not the prettiest workaround, but will allow decimals with commas to be inputted properly.
+                if isinstance(reply_data, list):
+                    # Make sure any urlencoded characters (such as $ signs) are unescaped.
+                    raw_reply = urllib2.unquote(data['reply'])
+                    print raw_reply
+
+
                 # Convert the string to a Decimal before using the form cleaned_data to update the user's profile.
-                print reply_data, decimal.Decimal(reply_data)
                 reply_data = decimal.Decimal(reply_data)
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'date_of_birth':
                 # Convert the given string into an actual Date object

@@ -9,6 +9,7 @@ class MotionAIWebHookForm(forms.Form):
     # camelCase var names are frowned upon in Python, but motion.ai sends the fields as such.
     moduleID = forms.IntegerField()
     replyData = forms.CharField()
+    reply = forms.CharField()
     session = forms.CharField()
     secret = forms.CharField()
 
