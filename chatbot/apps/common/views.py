@@ -5,6 +5,7 @@ import decimal
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 from forms import MotionAIWebHookForm
 from chatbot.apps.profiles.models import UserProfile

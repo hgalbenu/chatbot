@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>DebtBot</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
-<body style="height: 100%">
-<iframe frameborder="0" height="100%" width="100%"
+<body style="height: 95%">
+{% block body_content %}
+<div style="display: block; width: 100%; height: 40px; background: #F3F7F9; margin-bottom: 20px; text-align: right; padding: 0 20px;">
+    <a href="/profile/" style="height: 40px; line-height: 40px;margin-right: 10px">My Profile</a>
+    <a href="/logout/" style="height: 40px; line-height: 40px; ">Log Out</a>
+</div>
+<iframe frameborder="0" height="95%" width="100%"
         src="https://api.motion.ai/webchat/45114?session={{ user.user_profile.id }}&color=62a8ea&sendBtn=SEND&inputBox=Type%20something...&token=01ce510a2eb52c543a838c478a3bacbe">
 </iframe>
 </body>
+{% endblock %}
 </html>
