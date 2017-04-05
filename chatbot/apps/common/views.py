@@ -35,6 +35,7 @@ class MotionAIWebHookView(View):
 
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'total_debt':
                 # Convert the string to a Decimal before using the form cleaned_data to update the user's profile.
+                print reply_data, decimal.Decimal(reply_data)
                 reply_data = decimal.Decimal(reply_data)
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'date_of_birth':
                 reply_data = timezone.datetime.strptime(reply_data, "%Y-%m-%dT%H:%M:%S.%fZ")
