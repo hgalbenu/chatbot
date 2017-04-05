@@ -20,7 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5j9=_4mk70udr3nw%zpq^7km)!74-%pmcj5c#wo1$^8he*@x=f'
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ['SECRET_KEY']
+else:
+    SECRET_KEY = '5j9=_4mk70udr3nw%zpq^7km)!74-%pmcj5c#wo1$^8he*@x=f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -146,3 +149,8 @@ if ENVIRONMENT == 'STAGING':
 
     # Static file storage for Heroku
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Motion AI keys
+
+MOTION_AI_API_KEY = os.environ.get('MOTION_AI_API_KEY', '427324761749117050e5e4540747b06b')
+MOTION_AI_SECRET_KEY = os.environ.get('MOTION_AI_SECRET_KEY', "gbtb*mb4^5(l02s^6=m=#a8@yrjs)w_tzyhhqs9n70)l1j^$k9")
