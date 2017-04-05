@@ -21,6 +21,6 @@ import apps.common.views as views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.HomePage.as_view(), name='home-page'),
-    url(r'^motion-ai-hook/$', csrf_exempt(views.MotionAIWebHook.as_view()), name='motion-ai-hook')
+    url(r'^$', views.HomePageView.as_view(), name='home-page'),
+    url(r'^motion-ai-hook/$', csrf_exempt(views.MotionAIWebHookView.as_view()), name='motion-ai-hook')
 ]

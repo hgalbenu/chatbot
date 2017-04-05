@@ -4,7 +4,7 @@ from django.views.generic import View, TemplateView
 from django.http import HttpResponse
 
 
-class HomePage(TemplateView):
+class HomePageView(TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, request, **kwargs):
@@ -17,8 +17,8 @@ class HomePage(TemplateView):
         return self.render_to_response(context)
 
 
-class MotionAIWebHook(View):
+class MotionAIWebHookView(View):
     def post(self, request):
         print request.META
-        print request.body
+        print request.POST
         return HttpResponse(status=200, content='')
