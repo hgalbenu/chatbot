@@ -1,0 +1,41 @@
+{% extends 'home.html' %}
+
+<body>
+{% block body_content %}
+<div style="text-align: center; margin-top: 20px;">
+    <p>Hello {{ user.get_full_name | default:user.username}},</p>
+    <p>Here's what we know about you right now:</p>
+<table class="table table-hover" style="display: block; margin: 100px auto; width: 50%;">
+  <tbody align="center" style="margin: 0 auto; display: block">
+    <tr>
+      <th scope="row">Username</th>
+      <td> {{ user.username }} </td>
+    </tr>
+    <tr>
+      <th scope="row">First Name</th>
+      <td> {{ user.first_name | default:"-" }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Last Name</th>
+      <td> {{ user.last_name | default:"-" }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td> {{ user.email | default:"-" }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Date of Birth</th>
+      <td> {{ user.user_profile.date_of_birth | default:"-" }} </td>
+    </tr>
+    <tr>
+      <th scope="row">Total Debt</th>
+      <td>
+          ${{ user.user_profile.total_debt | default:"-" }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<a href="/">Go back to the homepage</a>
+</div>
+{% endblock %}
+</body>
