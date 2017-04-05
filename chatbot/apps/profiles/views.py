@@ -1,5 +1,8 @@
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
+from models import UserProfile
 
 
 class MyProfileView(TemplateView):
@@ -18,8 +21,11 @@ class MyProfileView(TemplateView):
 class RegistrationView(FormView):
     form_class = UserCreationForm
     template_name = 'registration/register.html'
-    success_url = '/login/'
+    success_url = '/'
 
     def form_valid(self, form):
-        form.save()
+        user = form.save()
+        # Make sure to create a corresponding UserProfile for the new User.
+        UserProfile.objects.create(user=user)
+        login(self.request, user)
         return super(RegistrationView, self).form_valid(form)

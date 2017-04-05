@@ -45,7 +45,6 @@ class MotionAIWebHookView(View):
                     raw_reply = urllib2.unquote(data['reply'])
                     print raw_reply
 
-
                 # Convert the string to a Decimal before using the form cleaned_data to update the user's profile.
                 reply_data = decimal.Decimal(reply_data)
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'date_of_birth':
