@@ -16,13 +16,18 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 
 import apps.common.views as common_views
 import apps.profiles.views as profile_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', common_views.HomePageView.as_view(), name='home-page'),
+    url(r'^$', login_required(common_views.HomePageView.as_view()), name='home-page'),
     url(r'^motion-ai-hook/$', csrf_exempt(common_views.MotionAIWebHookView.as_view()), name='motion-ai-hook'),
-    url(r'^profile/$', profile_views.MyProfileView.as_view(), name='profile')
+    url(r'^profile/$', login_required(profile_views.MyProfileView.as_view()), name='profile'),
+    url(r'^logout/$', login_required(auth_views.logout_then_login), name='logout'),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^register/$', profile_views.RegistrationView.as_view(), name='register'),
 ]

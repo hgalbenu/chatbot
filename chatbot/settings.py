@@ -127,6 +127,9 @@ if 'ENVIRONMENT' in os.environ:
 else:
     ENVIRONMENT = 'DEV'
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 DATABASES = {
