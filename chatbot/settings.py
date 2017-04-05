@@ -136,7 +136,11 @@ DATABASES = {
 }
 
 if ENVIRONMENT == 'STAGING':
-    # Add persistent connection settings
     import dj_database_url
+    # Add persistent connection settings
     db_from_env = dj_database_url.config(conn_max_age=500)
+
     DATABASES['default'].update(db_from_env)
+
+    # Static file storage for Heroku
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
