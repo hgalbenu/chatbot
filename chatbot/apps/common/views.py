@@ -40,6 +40,7 @@ class MotionAIWebHookView(View):
                 # like to use commas as separators for grouping thousands, if supplied.
                 # replyData will be a list in this case, so fallback to the raw reply supplied by out bot.
                 # This is not the prettiest workaround, but will allow decimals with commas to be inputted properly.
+                print reply_data, type(reply_data)
                 if isinstance(reply_data, list):
                     # Make sure any urlencoded characters (such as $ signs) are unescaped.
                     raw_reply = urllib2.unquote(data['reply'])
