@@ -27,12 +27,10 @@ class HomePageView(TemplateView):
 class MotionAIWebHookView(View):
     def post(self, request):
         form = MotionAIWebHookForm(request.POST)
-        print form.errors
-        print request.POST
         if form.is_valid():
             data = form.cleaned_data
-            module_id = data['module_id']
-            reply_data = data['reply_data']
+            module_id = data['moduleID']
+            reply_data = data['replyData']
 
             if MODULE_ID_TO_FIELD_MAPPING[module_id] == 'total_debt':
                 # Convert the string to a Decimal before using the form cleaned_data to update the user's profile.

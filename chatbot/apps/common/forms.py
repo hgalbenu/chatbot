@@ -5,13 +5,9 @@ from chatbot.apps.profiles.constants import MODULE_ID_TO_FIELD_MAPPING
 
 
 class MotionAIWebHookForm(forms.Form):
-    message_from = forms.CharField()
-    message_to = forms.CharField()
-    module_id = forms.IntegerField()
-    reply_data = forms.CharField(required=False)
+    moduleID = forms.IntegerField()
+    replyData = forms.CharField(required=False)
     session = forms.CharField()
-    direction = forms.CharField()
-    attached_media = forms.CharField(required=False)
     secret = forms.CharField()
 
     def clean(self):
@@ -23,6 +19,6 @@ class MotionAIWebHookForm(forms.Form):
             raise forms.ValidationError('Invalid secret.')
 
         # Check whether the received module_id is a valid one as defined in module to field mapping.
-        module_id = cleaned_data.get('module_id')
+        module_id = cleaned_data.get('moduleID')
         if module_id not in MODULE_ID_TO_FIELD_MAPPING.keys():
             raise forms.ValidationError('Invalid module id.')
