@@ -19,8 +19,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
-import apps.common.views as common_views
-import apps.profiles.views as profile_views
+from .apps.common import views as common_views
+from .apps.profiles import views as profile_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

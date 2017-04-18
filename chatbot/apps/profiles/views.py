@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
-from models import UserProfile
+from .models import UserProfile
 
 
 class MyProfileView(TemplateView):
