@@ -15,7 +15,6 @@ import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "apps"))
 
@@ -46,6 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'chatbot.apps.common',
+    'chatbot.apps.creditors',
+    'chatbot.apps.debts',
+    'chatbot.apps.jobs',
+    'chatbot.apps.motion_ai',
     'chatbot.apps.profiles',
 ]
 
@@ -63,8 +66,19 @@ ROOT_URLCONF = 'chatbot.urls'
 
 TEMPLATES = [
     {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates/jinja2'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+        },
+    },
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -157,7 +171,129 @@ if ENVIRONMENT == 'STAGING':
     # Static file storage for Heroku
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# Motion AI keys
+# Motion AI
+# MOTION_AI_API_KEY = os.environ.get('MOTION_AI_API_KEY')
+MOTION_AI_WEBHOOK_SECRET = os.environ.get('MOTION_AI_WEBHOOK_SECRET')
+MOTION_AI_DEBT_NEW = 478927,  # whenever we encounter this module, a new debt is being created
+MOTION_AI_JOB_NEW = 478771  # whenever we encounter this module, a new debt is being created
 
-MOTION_AI_API_KEY = os.environ.get('MOTION_AI_API_KEY', '427324761749117050e5e4540747b06b')
-MOTION_AI_SECRET_KEY = os.environ.get('MOTION_AI_SECRET_KEY', "gbtb*mb4^5(l02s^6=m=#a8@yrjs)w_tzyhhqs9n70)l1j^$k9")
+MOTION_AI_MODULE_MAPPING = {
+    33251: {
+        'User': {
+            402680: 'email',
+            402681: 'knowWhereToStart',
+            402677: 'totalDebt',
+            402678: 'averageInterestRate',
+            402679: 'monthlyDebtPayments',
+            402673: 'incomeYN',
+            402674: 'incomeAmount',
+            402675: 'incomeConsistency',
+            402682: 'situationDetail',
+            402891: 'houseHoldSize',
+            402889: 'homeEquity',
+            402879: 'ownHome',
+            408193: 'behindOnPayments',
+            402782: 'daysPastDue',
+            402733: 'firstName'
+        }
+    },
+
+    # CRN V3
+    35583: {
+        'User': {
+            426478: 'firstName',
+            426490: 'questionConsultation',
+
+            # question
+            435920: 'email',
+            426493: 'situationDetail',
+
+            # consultation
+            426470: 'incomeAmount',
+            426471: 'incomeConsistency',
+            426472: 'totalDebt',
+            426474: 'monthlyDebtPayments',
+            426473: 'averageInterestRate',
+            426479: 'behindOnPayments',
+            426480: 'daysPastDue',
+            426482: 'ownHome',
+            426483: 'homeEquity',
+            426484: 'houseHoldSize',
+            426505: 'state',
+            426518: 'phoneOrEmail',
+            426475: 'email',
+            426486: 'phone',
+            426517: 'situationDetail'
+        }
+    },
+
+    # Fin 3
+    39785: {
+        'User': {
+            478908: 'firstName',
+
+            502695: 'questionConsultation',
+
+            # question
+            502697: 'email',
+            502710: 'situationDetail',
+
+            # consultation
+            478903: 'is_married',
+            478759: 'employment_status',
+
+            478859: 'additional_income',
+            478865: 'additional_income_amount',
+            490584: 'additional_income_consistent',
+
+            478912: 'state',
+            478895: 'ownHome',
+            478902: 'homeEquity',
+            478905: 'houseHoldSize',
+
+            506804: 'totalDebt',
+            506805: 'basic_hardship',
+            506851: 'monthlyDebtPayments',
+
+            478957: 'credit_score_importance',
+            478962: 'needs_future_student_loan',
+            478963: 'needs_future_auto_loan',
+            478964: 'needs_future_mortgage',
+
+            502737: 'phoneOrEmail',
+            502738: 'phone',
+            478975: 'email',
+            478978: 'situationDetail'
+        },
+        'Debt': {
+            478927: 'creditor_name',
+            481737: 'collection_agency',
+            478929: 'balance',
+            478933: 'interest_rate',
+            478932: 'last_paid_at',
+            478942: 'monthly_payment',
+            478944: 'status',
+            478946: 'money_movement'
+        },
+        'Job': {
+            478771: 'employer_name',
+            478773: 'employment_length',
+            478862: 'income',
+            478836: 'income_consistency'
+        }
+    }
+}
+
+# Heavenly
+HEAVENLY_URL = os.getenv('HEAVENLY_URL')
+HEAVENLY_USERNAME = os.getenv('HEAVENLY_USERNAME')
+HEAVENLY_PASSWORD = os.getenv('HEAVENLY_PASSWORD')
+
+# Intercom
+INTERCOM_APP_ID = os.getenv('INTERCOM_APP_ID')
+INTERCOM_TOKEN = os.getenv('INTERCOM_TOKEN')
+
+# Other
+KIRKWOOD_URL = os.getenv('KIRKWOOD_URL')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
+RAVEN_DSN = os.getenv('RAVEN_DSN')

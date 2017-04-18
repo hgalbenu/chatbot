@@ -1,0 +1,236 @@
+{% set page = 'profile' %} 
+{% include 'partials/header_no_links.html' %}
+
+<div class="page-container">
+    
+<!-- bloc-0 -->
+<div class="bloc static full-width-bloc d-bloc bgc-1 tc-outer-space" id="bloc-0">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="row bgc-outer-space">
+					<div class="col-sm-3">
+						<div class="row voffset-md left-panel">
+							<div class="col-sm-12">
+								<h1 class="mg-md tc-white">
+									{{ user.firstName }}
+								</h1>
+								<p class="white opacity-50">
+									Created on {{ user.created_at.strftime('%m-%d-%Y') }}<br/>
+								</p>
+								<a class="button" href="{{ url_for('web.profile_edit', user_id=user.id)}}">edit</a>
+								<form class="button" action="{{ url_for('web.user_delete', user_id=user.id) }}" method="post" onsubmit="return confirm('Do you really want to delete this user?');">
+									<input type="submit" class="button" value="delete"/>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9">
+						<div class="right-panel">
+                        <a href="{{ url_for('web.admin') }}" style="float: right; margin-right: 20px"><u>Go to Admin Page</u></a>
+							<div class="row top-margin-50 voffset">
+								<div class="col-xs-12 col-md-8 col-md-offset-2">
+									<div class="row">
+										<div class="col-sm-8 col-sm-12">
+											<h2 class="mg-md">
+												Situation Detail
+											</h2>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-12">
+											{{ user.situationDetail }}
+										</div>
+									</div>
+								</div>
+							</div>							
+							<div class="row top-margin-50">
+								<div class="col-xs-12 col-md-8 col-md-offset-2">
+									<div class="row">
+										<div class="col-sm-8 col-sm-12">
+											<h2 class="mg-md">
+												Personal Information
+											</h2>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												Email Address
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{% if user.intercom_url %}
+													<a href="{{ user.intercom_url }}" target="_blank">{{ user.email }}</a>
+												{% else %}
+													{{ user.email }}
+												{% endif %}
+											</h4>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												Phone Number
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{{ user.phone }}
+											</h4>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												Married?
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{{ user.is_married if user.is_married is not none else '' }}
+											</h4>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												People in Home
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{{ user.houseHoldSize }}
+											</h4>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												State
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{{ user.state }}
+											</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row top-margin-50 voffset">
+								<div class="col-xs-12 col-md-8 col-md-offset-2">
+									<div class="row">
+										<div class="col-sm-8 col-sm-12">
+											<h2 class="mg-md">
+												Employment
+											</h2>
+										</div>
+									</div>
+									{% for job in user.jobs %}
+										<div class="row voffset info-row">
+											<div class="col-sm-12">
+												<h5 class="mg-md">
+													{{ job.employer_name }}
+														<a class="button" href="#">edit</a>
+														<form action="#" method="post">
+															<input type="submit" class="button" value="delete"/>
+														</form>
+												</h5>
+											</div>
+										</div>
+										<div class="row voffset info-row">
+											<div class="col-sm-5">
+												<h3 class="mg-md">
+													Employment length
+												</h3>
+											</div>
+											<div class="col-sm-7">
+												<h4 class="mg-md">
+													{{ job.employment_length or '-' }}
+												</h4>
+											</div>
+										</div>
+										<div class="row voffset info-row">
+											<div class="col-sm-5">
+												<h3 class="mg-md">
+													Monthly Income
+												</h3>
+											</div>
+											<div class="col-sm-7">
+												<h4 class="mg-md">
+													{{ job.income or '-' }}
+												</h4>
+											</div>
+										</div>
+										<div class="row voffset info-row">
+											<div class="col-sm-5">
+												<h3 class="mg-md">
+													Income Consistency
+												</h3>
+											</div>
+											<div class="col-sm-7">
+												<h4 class="mg-md">
+													{{ job.income_consistency or '-' }}
+												</h4>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="row top-margin-50 voffset">
+								<div class="col-xs-12 col-md-8 col-md-offset-2">
+									<div class="row">
+										<div class="col-sm-8 col-sm-12">
+											<h2 class="mg-md">
+												Assets
+											</h2>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												Home<br>
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{{ user.ownHome }}
+											</h4>
+										</div>
+									</div>
+									<div class="row voffset info-row">
+										<div class="col-sm-5">
+											<h3 class="mg-md">
+												Home Equity<br>
+											</h3>
+										</div>
+										<div class="col-sm-7">
+											<h4 class="mg-md">
+												{{ user.homeEquity }}
+											</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+                            <!-- Debt List - Read Only for profile view page -->
+                            {% include 'partials/debt_list.html' %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- bloc-0 END -->
+
+<!-- ScrollToTop Button -->
+<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+<!-- ScrollToTop Button END-->
+
+
+</div>
+<!-- Main container END -->
+    
+{% include 'partials/footer.html' %}

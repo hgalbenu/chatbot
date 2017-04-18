@@ -1,0 +1,47 @@
+{% include 'partials/header.html' %}
+
+<div class="page-container">
+
+<!-- bloc-0 -->
+<div class="bloc bgc-white l-bloc " id="bloc-0">
+	<div class="container bloc-lg">
+		<div class="row">
+			<div class="col-xs-12 col-md-8 col-md-offset-2">
+				<h1 class="mg-md">
+					Expert Note Templates <br/>
+                    <a href="{{ url_for('web.expert_note_template_add') }}">add a new Expert Note Template</a>
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- bloc-0 END -->
+
+<table class="table" style="margin-top: 50px;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Body</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for template in templates %}
+        <tr>
+            <td>{{ template.name }}</td>
+            <td>{{ template.body }}</td>
+            <td> <a href="{{ url_for('web.expert_note_template_edit', template_id=template.id) }}">edit</a> </td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- ScrollToTop Button -->
+<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+<!-- ScrollToTop Button END-->
+
+
+</div>
+<!-- Main container END -->
+    
+{% include 'partials/footer.html' %}

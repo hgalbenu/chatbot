@@ -1,10 +1,10 @@
-from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.test import TestCase
 
-from .forms import MotionAIWebHookForm
-from chatbot.apps.profiles.models import UserProfile
+from apps.motion_ai.forms import MotionAIWebHookForm
 from chatbot.apps.profiles.constants import MODULE_ID_TO_FIELD_MAPPING
+from chatbot.apps.profiles.models import UserProfile
 
 
 class MotionAIWebHookFormTestCase(TestCase):

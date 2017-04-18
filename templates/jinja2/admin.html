@@ -1,0 +1,47 @@
+{% include 'partials/header_no_links.html' %}
+
+<div class="page-container">
+
+<!-- bloc-0 -->
+<div class="bloc bgc-white l-bloc " id="bloc-0">
+	<div class="container bloc-lg">
+		<div class="row">
+			<div class="col-xs-12 col-md-8 col-md-offset-2">
+				<h1 class="mg-md">
+					CRN Admin
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- bloc-0 END -->
+<div>
+<form action="{{ url_for('web.user_add') }}" method="post">
+    <input type="submit" class="button" value="Add a new User"/>
+</form>
+
+
+<h1 class="mg-md">
+    Admin Pages <br/>
+</h1>
+<ul>
+    <li>User List</li>
+    <li>Bankruptcy Locations</li>
+    <li>Suing Lawyers</li>
+    <li>User Issues</li>
+    <li><u><a href="{{ url_for('web.creditors') }}">Creditors</a></u></li>
+    <li><u><a href="{{ url_for('web.expert_note_templates') }}">Expert Note Templates</a></u></li>
+</ul>
+
+</div>
+
+
+<!-- ScrollToTop Button -->
+<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+<!-- ScrollToTop Button END-->
+
+
+</div>
+<!-- Main container END -->
+    
+{% include 'partials/footer.html' %}

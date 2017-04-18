@@ -1,0 +1,52 @@
+{% set page = 'creditors' %}
+{% include 'partials/header.html' %}
+
+<!-- Main container -->
+<div class="page-container">
+    
+<!-- bloc-0 -->
+<div class="bloc bgc-white l-bloc " id="bloc-0">
+	<div class="container bloc-lg">
+		<div class="row">
+			<div class="col-xs-12 col-md-8 col-md-offset-2">
+                {% if creditor == None %}
+				<h1 class="mg-md">
+					Add new creditor
+				</h1>
+                {% else %}
+                <h1 class="mg-md">
+					Editing creditor {{ creditor.name }}
+				</h1>
+                {% endif %}
+				<p>
+					<a href="{{ url_for('web.creditors')}}">back to creditor list</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- bloc-0 END -->
+
+<form action="{{ form_action_url }}" method="post">
+	<ul>
+	{% for field in form %}
+		<li>
+			{{ field.label }}: {{ field }}
+			<ul class="errors">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+		</li>
+	{% endfor %}
+	<li>
+		<input type="submit" name="submit" value="save"/>
+	</li>
+	</ul>
+</form>
+
+<!-- ScrollToTop Button -->
+<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+<!-- ScrollToTop Button END-->
+
+
+</div>
+<!-- Main container END -->
+
+{% include 'partials/footer.html' %}
