@@ -1,31 +1,50 @@
-from django.views.generic import TemplateView, FormView
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.views.generic import DetailView
+from django.urls import reverse
+from django.views.generic.edit import UpdateView
+from .forms import UserProfileForm
 
-from .models import UserProfile
+from .models import UserProfile, ExpertNoteTemplate
 
 
-class MyProfileView(TemplateView):
+class ProfileView(DetailView):
     template_name = 'profile.html'
 
-    def get_context_data(self, request, **kwargs):
-        return {
-            'user': request.user
+    def get_object(self, queryset=None):
+        return UserProfile.objects.get(id=self.kwargs.get('pk'))
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        context.update({
+            'user_profile': self.get_object()
+        })
+        return context
+
+
+class ProfileEditView(UpdateView):
+    template_name = 'profile_edit.html'
+    form_class = UserProfileForm
+
+    def get_form_kwargs(self):
+        form_kwargs = super(ProfileEditView, self).get_form_kwargs()
+        obj = self.get_object()
+        form_kwargs['initial'] = {
+            'email': obj.email,
+            'expert_note_template_name': ExpertNoteTemplate.objects.filter(name=obj.expert_note_template_name).first()
         }
+        return form_kwargs
 
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(request, **kwargs)
-        return self.render_to_response(context)
+    def get_success_url(self):
+        return reverse('profile-edit', kwargs=self.kwargs)
 
+    def get_object(self, queryset=None):
+        return UserProfile.objects.get(id=self.kwargs.get('pk'))
 
-class RegistrationView(FormView):
-    form_class = UserCreationForm
-    template_name = 'registration/register.html'
-    success_url = '/'
+    def get_context_data(self, **kwargs):
+        context = super(ProfileEditView, self).get_context_data(**kwargs)
+        context.update({
+            'user_profile': self.get_object()
+        })
+        return context
 
-    def form_valid(self, form):
-        user = form.save()
-        # Make sure to create a corresponding UserProfile for the new User.
-        UserProfile.objects.create(user=user)
-        login(self.request, user)
-        return super(RegistrationView, self).form_valid(form)
+    def post(self, request, *args, **kwargs):
+        return super(ProfileEditView, self).post(request, *args, **kwargs)

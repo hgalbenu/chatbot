@@ -66,18 +66,8 @@ ROOT_URLCONF = 'chatbot.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates/jinja2'),
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-        },
-    },
-    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates/'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -296,4 +286,5 @@ INTERCOM_TOKEN = os.getenv('INTERCOM_TOKEN')
 # Other
 KIRKWOOD_URL = os.getenv('KIRKWOOD_URL')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
+# TODO: Actually integrate Raven with Django
 RAVEN_DSN = os.getenv('RAVEN_DSN')

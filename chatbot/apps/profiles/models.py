@@ -14,8 +14,8 @@ from .intercom import Intercom
 class UserProfile(TimeStampedModel, Heavenly, Intercom):
     user = models.OneToOneField(User, unique=True, verbose_name='user', related_name='user_profile')
 
-    session_id = models.TextField(_('session id'), primary_key=True)
-    id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    session_id = models.TextField(_('session id'), unique=True, default=uuid.uuid4)
 
     botId = models.PositiveIntegerField(_('bot id'), default=33251)
 
@@ -89,10 +89,18 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
 
     heavenly_updated_at = models.DateTimeField(blank=True, null=True)
 
-    current_job = models.OneToOneField('jobs.Job', unique=True, verbose_name=_('current job'),
+    current_job = models.OneToOneField('jobs.Job', blank=True, null=True, verbose_name=_('current job'),
                                        related_name='current_for')
-    current_debt = models.OneToOneField('debts.Debt', unique=True, verbose_name=_('current job'),
+    current_debt = models.OneToOneField('debts.Debt', blank=True, null=True, verbose_name=_('current job'),
                                         related_name='current_for')
+
+    @property
+    def created_at(self):
+        return self.created
+
+    @property
+    def updated_at(self):
+        return self.modified
 
     @property
     def profile_url(self):
@@ -129,3 +137,6 @@ class ExpertNoteTemplate(TimeStampedModel):
 
     name = models.TextField(_('name'), blank=True, null=True)
     body = models.TextField(_('body'), blank=True, null=True)
+
+    def __str__(self):
+        return 'ExpertNoteTemplate ' + self.name

@@ -1,3 +1,5 @@
+{% load common %}
+
 <div class="row top-margin-50 voffset">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
         <div class="row">
@@ -5,19 +7,19 @@
                 <h2 class="mg-md">
                     Debts
                     {% if enable_debt_edit %}
-                        <a class="button" href="{{ url_for('web.debt_add', user_id=user.id) }}">add</a>
+                        <a class="button" href="{% url 'web.debt_add' user_profile_id=user_profile.id %}">add</a>
                     {% endif %}
                 </h2>
             </div>
         </div>
-        {% for debt in user.debts %}
+        {% for debt in user_profile.debts.all %}
             <div class="row voffset info-row">
                 <div class="col-sm-12">
                     <h5 class="mg-md">
                         Creditor {{ loop.index }}
                     {% if enable_debt_edit %}
-                         <a class="button" href="{{ url_for('web.debt_edit', debt_id=debt.id) }}">edit</a>
-                         <form action="{{ url_for('web.debt_delete', debt_id=debt.id) }}" method="post">
+                         <a class="button" href="{% url 'web.debt_edit' debt_id=debt.id %}">edit</a>
+                         <form action="{% url 'web.debt_delete' debt_id=debt.id %}" method="post">
                          <input type="submit" class="button" value="delete"/>
                          </form>
                     {% endif %}
@@ -32,7 +34,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.creditor_name or '-' }}
+                        {{ debt.creditor_name | default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -44,7 +46,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.collection_agency or '-' }}
+                        {{ debt.collection_agency | default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -56,7 +58,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ "${:,.2f}".format(debt.balance) if debt.balance else '-' }}
+                        {{ debt.balance | stringformat:"${:,.2f}" |default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -68,7 +70,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ "{:,.0f}%".format(debt.interest_rate*100) if debt.interest_rate else '-' }}
+                        {{ debt.interest_rate | multiply:100 | stringformat:"{:,.0f}%" | default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -80,7 +82,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ "${:,.2f}".format(debt.monthly_payment) if debt.monthly_payment else '-' }}
+                        {{ debt.monthly_payment | stringformat:"${:,.2f}" | default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -92,7 +94,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.last_paid_at or '-'  }}
+                        {{ debt.last_paid_at | default:'-'  }}
                     </h4>
                 </div>
             </div>
@@ -104,7 +106,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.status or '-'  }}
+                        {{ debt.status | default:'-'  }}
                     </h4>
                 </div>
             </div>
@@ -116,7 +118,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.money_movement or '-'  }}
+                        {{ debt.money_movement | default:'-'  }}
                     </h4>
                 </div>
             </div>
