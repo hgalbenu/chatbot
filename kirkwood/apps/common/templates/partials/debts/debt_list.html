@@ -1,0 +1,127 @@
+{% load common %}
+
+<div class="row top-margin-50 voffset">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-sm-8 col-sm-12">
+                <h2 class="mg-md">
+                    Debts
+                    {% if enable_debt_edit %}
+                        <a class="button" href="{% url 'web.debt_add' user_profile_id=user_profile.id %}">add</a>
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+        {% for debt in user_profile.debts.all %}
+            <div class="row voffset info-row">
+                <div class="col-sm-12">
+                    <h5 class="mg-md">
+                        Creditor {{ loop.index }}
+                    {% if enable_debt_edit %}
+                         <a class="button" href="{% url 'web.debt_edit' debt_id=debt.id %}">edit</a>
+                         <form action="{% url 'web.debt_delete' debt_id=debt.id %}" method="post">
+                         <input type="submit" class="button" value="delete"/>
+                         </form>
+                    {% endif %}
+                    </h5>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Name<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.creditor_name | default:'-' }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Collection Agency<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.collection_agency | default:'-' }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Debt Balance<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.balance | default:'-' }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Interest Rate<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.interest_rate | multiply:100 | floatformat:0 | default:'-' }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Monthly Payment<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.monthly_payment | default:'-' }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Date of Last Payment<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.last_paid_at | default:'-'  }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Account Status<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.status | default:'-'  }}
+                    </h4>
+                </div>
+            </div>
+            <div class="row voffset info-row">
+                <div class="col-sm-5">
+                    <h3 class="mg-md">
+                        Money Movement<br>
+                    </h3>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mg-md">
+                        {{ debt.money_movement | default:'-'  }}
+                    </h4>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

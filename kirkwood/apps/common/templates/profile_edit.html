@@ -1,0 +1,416 @@
+{% load common %}
+{% include 'partials/header_edit.html' %}
+
+<!-- Main container -->
+<div class="page-container">
+
+<!-- bloc-0 END -->
+<form action="{% url 'profile-edit' pk=user_profile.id %}" method="post">
+	{% csrf_token %}
+	<ul class="profile-edit">
+<!-- bloc-1 -->
+<div class="bloc bgc-white full-width-bloc tc-olive-drab-7" id="bloc-1">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="left-panel">
+							<h1 class="mg-md tc-olive-drab-7">
+								{{ user_profile.firstName }}
+							</h1>
+							<div class="input-container">
+								<a href="{% url 'profile' pk=user_profile.id %}" class="btn">View Profile</a>
+							</div>
+							<div class="row">
+								<div class="col-sm-5">
+									<p>
+										Created Date
+									</p>
+								</div>
+								<div class="col-sm-7">
+									<p>
+										{{ user_profile.created | date:"D d M Y - g:iA" }}
+									</p>
+								</div>
+							</div>
+							<div class="input-container">
+								{% include 'partials/form_field.html' with field=form.firstName %}
+							</div>
+							<div class="input-container">
+								{% include 'partials/form_field.html' with field=form.phone %}
+							</div>										
+							<div class="input-container">
+								{% include 'partials/form_field.html' with field=form.email %}
+							</div>							
+							<div class="input-container">
+								{% include 'partials/form_field.html' with field=form.state %}
+							</div>	
+							<div class="input-container">
+								{% include 'partials/form_field.html' with field=form.user_status %}
+						        <ul>
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.completed_at field_label='5 - Completed' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.waiting_consultation_at field_label='4 - Waiting Consultation' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.question_answered_at field_label='3c - Question Answered' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.waiting_user_profile_answers_at field_label='3b - Waiting user_profile Answers' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.waiting_user_profile_schedule_at field_label='3a - Waiting user_profile Schedule' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.waiting_expert_review_at field_label='2 - Waiting Expert Review' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.waiting_data_review_at field_label='1 - Waiting Data Review' %}
+						        </ul>
+							</div>
+							<div class="input-container">
+						        {% include 'partials/form_field.html' with field=form.conclusion %}
+						        <ul>
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.no_action_required_at field_label='No Action Required' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.crn_settlement_at field_label='CRN Settlement' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.settlement_referral_at field_label='Settlement Referral' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.bankruptcy_referral_at field_label='Bankruptcy Referral' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.student_loan_referral_at field_label='Student Loan Referral' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.debt_defense_referral_at field_label='Debt Defense Referral' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.credit_counseling_referral_at field_label='Credit Counseling Referral' %}
+									{% include 'partials/profiles/profile_status_history_field.html' with field=user_profile.other_action_required_at field_label='Other Action Required' %}
+						        </ul>
+							</div>
+							<h3 class="mg-md tc-olive-drab-7">
+								Expert Note<br>
+							</h3>
+                            <div class="input-container">
+								{% include 'partials/form_field.html' with field=form.expert_note_template_name %}
+							</div>
+							<div class="input-container">
+								{% include 'partials/form_field.html' with field=form.expert_note %}
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9">
+						<div class="row bgc-white-smoke ">
+							<div class="col-xs-12 col-md-8 col-md-offset-2">
+                                <a href="{% url 'admin:index' %}" style="float: right; margin-right: 20px"><u>Go to Admin Page</u></a>
+								<div class="worksheet-section">
+									<h2 class="mg-md tc-olive-drab-7">
+										The Situation
+									</h2>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.questionConsultation %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.basic_hardship %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.totalDebt %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.monthlyDebtPayments %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.situationDetail %}
+									</div>
+								</div>
+								<div class="worksheet-section">
+									<h2 class="mg-md tc-olive-drab-7">
+										Primary Issue
+									</h2>
+                                    <!-- Debt List - Contains edit and delete buttons for each creditor on profile edit page -->
+                                    <!-- Copied here for now instead of using an include, for easier design changes -->
+                                    <div class="row top-margin-50 voffset">
+                                        <div class="col-xs-12 col-md-8 col-md-offset-2">
+                                            <div class="row">
+                                                <div class="col-sm-8 col-sm-12">
+                                                    <h2 class="mg-md">
+                                                        Debts
+                                                        <a class="button" href="{% url 'debt-add' user_id=user_profile.id %}">add</a>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            {% for debt in user_profile.debts.all %}
+                                                <div class="row voffset info-row">
+                                                    <div class="col-sm-12">
+                                                        <h5 class="mg-md">
+                                                            Creditor {{ loop.index }}
+                                                             <a class="button" href="{% url 'debt-edit' pk=debt.id %}">edit</a>
+                                                             <input type="submit" form="form_{{ debt.id }}" class="button" value="delete"/>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Name<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.creditor_name | default:'-' }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Collection Agency<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.collection_agency | default:'-' }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Debt Balance<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.balance | default:'-' }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Interest Rate<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.interest_rate | multiply:100 | floatformat:0 | default:'-' }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Monthly Payment<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.monthly_payment | default:'-' }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Date of Last Payment<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.last_paid_at | default:'-'  }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Account Status<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.status | default:'-'  }}
+														</h4>
+													</div>
+												</div>
+												<div class="row voffset info-row">
+													<div class="col-sm-5">
+														<h3 class="mg-md">
+															Money Movement<br>
+														</h3>
+													</div>
+													<div class="col-sm-7">
+														<h4 class="mg-md">
+															{{ debt.money_movement | default:'-'  }}
+														</h4>
+													</div>
+												</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+								</div>
+								<div class="worksheet-section">
+									<h2 class="mg-md tc-olive-drab-7">
+										Additional Details
+									</h2>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.knowWhereToStart %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.averageInterestRate %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.incomeYN %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.incomeAmount %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.incomeConsistency %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.is_married %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.houseHoldSize %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.homeEquity %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.ownHome %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.behindOnPayments %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.daysPastDue %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.phoneOrEmail %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.employment_status %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.additional_income %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.additional_income_amount %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.additional_income_consistent %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.credit_score_importance %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.needs_future_student_loan %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.needs_future_auto_loan %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.needs_future_mortgage %}
+									</div>
+									<div class="input-container">
+										{% include 'partials/form_field.html' with field=form.revenue_potential %}
+									</div>
+								</div>
+								
+								<input class="saveBtn" type="submit" name="submit" value="save"/>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- bloc-1 END -->
+</ul>
+</form>
+
+<!--
+This isn't pretty, but nesting forms in HTML ends up badly (the first nested form seems to not be rendered at all)
+so the actual debt delete forms are added after the "big" profile form, while their submit inputs are still left in
+their original place, and the correspondence is made using form ids.
+-->
+{% for debt in user_profile.debts.all %}
+     <form id="form_{{ debt.id }}" action="{% url 'debt-delete' pk=debt.id %}" method="post">
+		 {% csrf_token %}
+     </form>
+{% endfor %}
+<!-- ScrollToTop Button -->
+<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+<!-- ScrollToTop Button END-->
+
+
+</div>
+<!-- Main container END -->
+ 
+
+<!-- Status Change confirmation modal -->
+<div class="modal fade" id="status_change_modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close dismiss-modal" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">You are about to make changes to the user_profile's <span id="modal_field_name"></span></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Are you sure you'd like to perform these changes?
+                </p>
+                <p>
+                    Pressing yes will cause the field to be modified the next time you save. Pressing no will return
+                    the field to its original value.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-confirm">Yes</button>
+                <button type="button" class="btn btn-default dismiss-modal" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ScrollToTop Button -->
+<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+<!-- ScrollToTop Button END-->
+
+
+</div>
+<!-- Main container END -->
+
+{% include 'partials/footer.html' %}
+<script type="text/javascript">
+    $(function () {
+        var status_dropdown = $("#id_user_status");
+        var conclusion_dropdown = $("#id_conclusion");
+
+        var initial_status_value = status_dropdown.val();
+        var initial_conclusion_value = conclusion_dropdown.val();
+
+        $('#status_change_modal').on('hidden.bs.modal', function () {
+            // Restore both dropdowns to their original values when modal is closed.
+            // This could be improved a bit, since right now it fires even after the confirm button is pressed,
+            // however the selected values are correctly updated before this event triggers.
+            status_dropdown.val(initial_status_value);
+            conclusion_dropdown.val(initial_conclusion_value);
+        });
+
+        status_dropdown.change(function () {
+            $('#status_change_modal').modal('show');
+            $(".modal-title #modal_field_name").html('status');
+        });
+
+        conclusion_dropdown.change(function () {
+            $('#status_change_modal').modal('show');
+            $(".modal-title #modal_field_name").html('conclusion');
+        });
+
+        $(".modal-confirm").click(function () {
+            // Allow selected values to change when the confirm button is pressed.
+            initial_status_value = status_dropdown.val();
+            initial_conclusion_value = conclusion_dropdown.val();
+            $('#status_change_modal').modal('hide');
+        });
+
+//        // Populate expert note field when a template is selected
+        $("#id_expert_note_template_name").change(function () {
+            if (this.value == 'None') {
+                $("#id_expert_note").html('');
+            }
+            else {
+                var selected_value = $(this).val();
+                $("#id_expert_note").html(selected_value);
+            }
+        });
+    });
+</script>
