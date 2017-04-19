@@ -26,13 +26,13 @@ class Heavenly(object):
             'incomes': [{
                     'dollar-value': safe_cast(j.income, int),
                     'consistent?': True if j.income_consistency and j.income_consistency.lower() == 'yes' else False
-                } for j in self.jobs],
+                } for j in self.jobs.all()],
             'debts': [{
                     'name': d.creditor_name,
                     'dollar-value': safe_cast(d.balance, int),
                     'interest': safe_cast(d.interest_rate, float),
                     'days-behind': d.days_behind or 0
-                } for d in self.debts],
+                } for d in self.debts.all()],
         }
         try:
             r = requests.post(

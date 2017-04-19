@@ -8,10 +8,17 @@ class Intercom(object):
 
     def _intercom_custom_attributes(self):
         user_dict = self.__dict__.copy()
-        for excluded_attr in ['_sa_instance_state', 'heavenly_request', 'heavenly_response', 'current_debt_id', 'current_debt', 'debts', 'current_job_id', 'current_job', 'jobs']:
+
+        for excluded_attr in ['_state', 'heavenly_request', 'heavenly_response', 'current_debt_id', 'current_debt', 'debts', 'current_job_id', 'current_job', 'jobs']:
             user_dict.pop(excluded_attr, None)
         user_dict['id'] = str(self.id)
-        for c in ['updated_at', 'created_at', 'heavenly_updated_at', 'no_action_required_at', 'crn_settlement_at', 'settlement_referral_at',
+
+        user_dict['updated_at'] = time.mktime(user_dict['modified'].timetuple()) if user_dict['modified'] else None
+        user_dict['created_at'] = time.mktime(user_dict['created'].timetuple()) if user_dict['created'] else None
+        user_dict.pop('created')
+        user_dict.pop('modified')
+
+        for c in ['heavenly_updated_at', 'no_action_required_at', 'crn_settlement_at', 'settlement_referral_at',
                   'bankruptcy_referral_at', 'student_loan_referral_at', 'debt_defense_referral_at', 'credit_counseling_referral_at',
                   'other_action_required_at', 'waiting_data_review_at', 'waiting_expert_review_at', 'waiting_user_schedule_at',
                   'waiting_user_answers_at', 'question_answered_at', 'waiting_consultation_at', 'completed_at']:

@@ -98,7 +98,7 @@ class MotionAIWebHookFormTestCase(TestCase):
 
     def _send_motion_request(self, bot_id, module_id, reply):
         data = self._motion_data(bot_id, module_id, reply)
-        return self.client.post('/webhook/', data=data)
+        return self.client.post('/motion_ai/webhook/', data=data)
 
     def _motion_data(self, bot_id, module_id, reply):
         data = {

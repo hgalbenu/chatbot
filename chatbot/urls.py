@@ -38,5 +38,5 @@ urlpatterns = [
     url(r'^logout/$', login_required(auth_views.logout_then_login), name='logout'),
     url(r'^login/$', auth_views.login, name='login'),
 
-    url(r'^webhook/$', csrf_exempt(motion_ai_views.MotionAIWebHookView.as_view()), name='motion-ai-hook'),
+    url(r'^motion_ai/webhook/$', csrf_exempt(motion_ai_views.MotionAIWebHookView.as_view()), name='motion-ai-hook'),
 ]
