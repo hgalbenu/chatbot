@@ -43,7 +43,6 @@ class UserProfileForm(ModelForm):
     expert_note_template_name = NameModelChoiceField(label='Template', required=False,
                                                      queryset=ExpertNoteTemplate.objects.all(),
                                                      empty_label='None', to_field_name="body")
-    email = fields.EmailField(label='Email', required=False)
     is_married = fields.NullBooleanField(label='Is married', required=False, widget=widgets.CheckboxInput())
     additional_income = fields.NullBooleanField(label='Additional income', required=False,
                                                 widget=widgets.CheckboxInput())
@@ -83,7 +82,6 @@ class UserProfileForm(ModelForm):
         # Override save in order to populate corresponding status timestamps on user, only if changed.
         selected_user_status_choice = self.cleaned_data.pop('user_status', None)
         selected_conclusion_choice = self.cleaned_data.pop('conclusion', None)
-        email = self.cleaned_data.pop('email', None)
         expert_note_template_name = self.cleaned_data.pop('expert_note_template_name', None)
 
         if 'user_status' in self.changed_data:
@@ -98,10 +96,7 @@ class UserProfileForm(ModelForm):
             if selected_conclusion_choice != 'None':
                 setattr(self.instance, USER_CONCLUSION_MAPPING[selected_conclusion_choice], datetime.now())
 
-        # Also save email if changed
-        if 'email' in self.changed_data:
-            setattr(self.instance, 'email', email)
-
+        # Also save expert note template if changed
         if 'expert_note_template_name' in self.changed_data:
             template_name = expert_note_template_name.name if expert_note_template_name is not None else 'None'
             setattr(self.instance, 'expert_note_template_name', template_name)

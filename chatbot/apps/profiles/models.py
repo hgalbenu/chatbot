@@ -19,6 +19,9 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
 
     botId = models.PositiveIntegerField(_('bot id'), default=33251)
 
+    # TODO: Should probably remove this from here, duplicated from user for easier handling
+    email = models.EmailField(_('email address'), blank=True)
+
     knowWhereToStart = models.TextField(_('know where to start'), blank=True, null=True)
     totalDebt = models.TextField(_('total debt'), blank=True, null=True)
     averageInterestRate = models.TextField(_('average interest rate'), blank=True, null=True)
@@ -116,16 +119,6 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
         first_name, last_name = value.split(' ')
         user.first_name = first_name
         user.last_name = last_name
-        user.save()
-
-    @property
-    def email(self):
-        return self.user.email
-
-    @email.setter
-    def email(self, value):
-        user = self.user
-        user.email = value
         user.save()
 
     def __str__(self):

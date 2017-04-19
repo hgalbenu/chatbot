@@ -52,6 +52,16 @@ a,button{outline: none!important;} /* Prevent ugly blue glow on chrome and safar
 	height:auto;
 }
 
+.saveBtn {
+	margin-top: 40px;
+	background: #50E3C2;
+	border: 0;
+	outline: 0;
+}
+
+.saveBtn:hover {
+	background: #55F3D0;
+}
 
 /* Light theme */
 
