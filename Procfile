@@ -1,1 +1,1 @@
-web: gunicorn chatbot.wsgi --log-file -
+web: gunicorn kirkwood.wsgi --log-file -
