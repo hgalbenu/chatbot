@@ -1,6 +1,8 @@
 from django.views.generic import DetailView
 from django.urls import reverse
 from django.views.generic.edit import UpdateView
+from django.shortcuts import get_object_or_404
+
 from .forms import UserProfileForm
 
 from .models import UserProfile, ExpertNoteTemplate
@@ -10,7 +12,7 @@ class ProfileView(DetailView):
     template_name = 'profile.html'
 
     def get_object(self, queryset=None):
-        return UserProfile.objects.get(id=self.kwargs.get('pk'))
+        return get_object_or_404(UserProfile, id=self.kwargs.get('pk'))
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -37,7 +39,7 @@ class ProfileEditView(UpdateView):
         return reverse('profile-edit', kwargs=self.kwargs)
 
     def get_object(self, queryset=None):
-        return UserProfile.objects.get(id=self.kwargs.get('pk'))
+        return get_object_or_404(UserProfile, id=self.kwargs.get('pk'))
 
     def get_context_data(self, **kwargs):
         context = super(ProfileEditView, self).get_context_data(**kwargs)

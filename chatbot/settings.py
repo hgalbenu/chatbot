@@ -141,24 +141,12 @@ LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'chatbot_db',
-        'USER': 'dbadmin',
-        'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default': db_from_env
 }
 
 if ENVIRONMENT == 'STAGING':
-    import dj_database_url
-    # Add persistent connection settings
-    db_from_env = dj_database_url.config(conn_max_age=500)
-
-    DATABASES['default'].update(db_from_env)
-
     # Static file storage for Heroku
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 

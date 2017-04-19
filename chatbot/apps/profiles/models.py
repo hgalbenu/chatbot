@@ -23,7 +23,7 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
     botId = models.PositiveIntegerField(_('bot id'), default=33251)
 
     # TODO: Should probably remove this from here, duplicated from user for easier handling
-    email = models.EmailField(_('email address'), blank=True)
+    email = models.EmailField(_('email address'), blank=True, null=True, max_length=2048)
 
     knowWhereToStart = LongCharField(_('know where to start'), blank=True, null=True)
     totalDebt = LongCharField(_('total debt'), blank=True, null=True)

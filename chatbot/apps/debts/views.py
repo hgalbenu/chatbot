@@ -1,5 +1,5 @@
 from django.urls import reverse
-
+from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import DebtForm
@@ -48,7 +48,7 @@ class DebtUpdateView(UpdateView):
         return context
 
     def get_object(self, queryset=None):
-        return Debt.objects.get(id=self.kwargs.get('pk'))
+        return get_object_or_404(Debt, id=self.kwargs.get('pk'))
 
 
 class DebtDeleteView(DeleteView, DebtUpdateView):
