@@ -7,52 +7,55 @@ from django_extensions.db.models import TimeStampedModel
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 
+from ..common.model_fields import LongCharField
+
 from .heavenly import Heavenly
 from .intercom import Intercom
 
 
 class UserProfile(TimeStampedModel, Heavenly, Intercom):
-    user = models.OneToOneField(User, unique=True, verbose_name='user', related_name='user_profile')
+    # TODO: This is going to be nullable for now, since we won't be using auth just yet - make non nullable
+    user = models.OneToOneField(User, null=True, unique=True, verbose_name='user', related_name='user_profile')
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    session_id = models.TextField(_('session id'), unique=True, default=uuid.uuid4)
+    session_id = LongCharField(_('session id'), unique=True, default=uuid.uuid4)
 
     botId = models.PositiveIntegerField(_('bot id'), default=33251)
 
     # TODO: Should probably remove this from here, duplicated from user for easier handling
     email = models.EmailField(_('email address'), blank=True)
 
-    knowWhereToStart = models.TextField(_('know where to start'), blank=True, null=True)
-    totalDebt = models.TextField(_('total debt'), blank=True, null=True)
-    averageInterestRate = models.TextField(_('average interest rate'), blank=True, null=True)
-    monthlyDebtPayments = models.TextField(_('monthly debt payments'), blank=True, null=True)
-    incomeYN = models.TextField(_('income YN'), blank=True, null=True)
-    incomeAmount = models.TextField(_('income amount'), blank=True, null=True)
-    incomeConsistency = models.TextField(_('income consistency'), blank=True, null=True)
-    situationDetail = models.TextField(_('situation detail'), blank=True, null=True)
+    knowWhereToStart = LongCharField(_('know where to start'), blank=True, null=True)
+    totalDebt = LongCharField(_('total debt'), blank=True, null=True)
+    averageInterestRate = LongCharField(_('average interest rate'), blank=True, null=True)
+    monthlyDebtPayments = LongCharField(_('monthly debt payments'), blank=True, null=True)
+    incomeYN = LongCharField(_('income YN'), blank=True, null=True)
+    incomeAmount = LongCharField(_('income amount'), blank=True, null=True)
+    incomeConsistency = LongCharField(_('income consistency'), blank=True, null=True)
+    situationDetail = LongCharField(_('situation detail'), blank=True, null=True)
     is_married = models.NullBooleanField(_('is married'), blank=True, null=True)
-    houseHoldSize = models.TextField(_('household size'), blank=True, null=True)
-    homeEquity = models.TextField(_('home equity'), blank=True, null=True)
-    ownHome = models.TextField(_('own home'), blank=True, null=True)
-    behindOnPayments = models.TextField(_('behind on payments'), blank=True, null=True)
-    daysPastDue = models.TextField(_('days past due'), blank=True, null=True)
-    firstName = models.TextField(_('first name'), blank=True, null=True)
-    questionConsultation = models.TextField(_('question consultation'), blank=True, null=True)
-    state = models.TextField(_('state'), blank=True, null=True)
-    phoneOrEmail = models.TextField(_('phone or email'), blank=True, null=True)
-    phone = models.TextField(_('phone'), blank=True, null=True)
+    houseHoldSize = LongCharField(_('household size'), blank=True, null=True)
+    homeEquity = LongCharField(_('home equity'), blank=True, null=True)
+    ownHome = LongCharField(_('own home'), blank=True, null=True)
+    behindOnPayments = LongCharField(_('behind on payments'), blank=True, null=True)
+    daysPastDue = LongCharField(_('days past due'), blank=True, null=True)
+    firstName = LongCharField(_('first name'), blank=True, null=True)
+    questionConsultation = LongCharField(_('question consultation'), blank=True, null=True)
+    state = LongCharField(_('state'), blank=True, null=True)
+    phoneOrEmail = LongCharField(_('phone or email'), blank=True, null=True)
+    phone = LongCharField(_('phone'), blank=True, null=True)
 
-    basic_hardship = models.TextField(_('basic hardship'), blank=True, null=True)
-    employment_status = models.TextField(_('employment status'), blank=True, null=True)
+    basic_hardship = LongCharField(_('basic hardship'), blank=True, null=True)
+    employment_status = LongCharField(_('employment status'), blank=True, null=True)
 
     additional_income = models.NullBooleanField(_('additional income'), blank=True, null=True)
     additional_income_consistent = models.NullBooleanField(_('additional income consistent'), blank=True, null=True)
-    additional_income_amount = models.TextField(_('additional income amount'), blank=True, null=True)
+    additional_income_amount = LongCharField(_('additional income amount'), blank=True, null=True)
 
-    credit_score_importance = models.TextField(_('credit score importance'), blank=True, null=True)
-    needs_future_student_loan = models.TextField(_('needs future student loan'), blank=True, null=True)
-    needs_future_auto_loan = models.TextField(_('needs future auto loan'), blank=True, null=True)
-    needs_future_mortgage = models.TextField(_('needs future mortgage'), blank=True, null=True)
+    credit_score_importance = LongCharField(_('credit score importance'), blank=True, null=True)
+    needs_future_student_loan = LongCharField(_('needs future student loan'), blank=True, null=True)
+    needs_future_auto_loan = LongCharField(_('needs future auto loan'), blank=True, null=True)
+    needs_future_mortgage = LongCharField(_('needs future mortgage'), blank=True, null=True)
     revenue_potential = models.DecimalField(_('revenue potential'), decimal_places=2, max_digits=18, blank=True, null=True)
 
     # These timestamps will probably need to be modelled in a more robust fashion,
@@ -66,7 +69,7 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
     question_answered_at = models.DateTimeField(blank=True, null=True)
     waiting_consultation_at = models.DateTimeField(blank=True, null=True)
     completed_at = models.DateTimeField(blank=True, null=True)
-    user_status = models.TextField(_('conclusion'), blank=True, null=True, default="None")
+    user_status = LongCharField(_('conclusion'), blank=True, null=True, default="None")
     # Expert conclusion timestamps
     no_action_required_at = models.DateTimeField(blank=True, null=True)
     crn_settlement_at = models.DateTimeField(blank=True, null=True)
@@ -76,19 +79,19 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
     debt_defense_referral_at = models.DateTimeField(blank=True, null=True)
     credit_counseling_referral_at = models.DateTimeField(blank=True, null=True)
     other_action_required_at = models.DateTimeField(blank=True, null=True)
-    conclusion = models.TextField(_('conclusion'), blank=True, null=True, default="None")
+    conclusion = LongCharField(_('conclusion'), blank=True, null=True, default="None")
 
     # Will be included in emails sent due to status changes defined above
-    expert_note = models.TextField(_('expert note'), blank=True, null=True)
+    expert_note = LongCharField(_('expert note'), blank=True, null=True)
     # TODO: This is a quick hack to make Intercom emails easier to send, since custom fields can't contain any
     # formatted text. This should probably be a foreign key.
-    expert_note_template_name = models.TextField(_('expert note template name'), blank=True, null=True, default="None")
+    expert_note_template_name = LongCharField(_('expert note template name'), blank=True, null=True, default="None")
 
-    intercom_user_id = models.TextField(_('intercom user id'), blank=True, null=True)
+    intercom_user_id = LongCharField(_('intercom user id'), blank=True, null=True)
 
     heavenly_request = JSONField(_('heavenly_request'), blank=True, null=True)
     heavenly_response = JSONField(_('heavenly_response'), blank=True, null=True)
-    action = models.TextField(_('action'), blank=True, null=True)
+    action = LongCharField(_('action'), blank=True, null=True)
 
     heavenly_updated_at = models.DateTimeField(blank=True, null=True)
 
@@ -128,8 +131,8 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
 class ExpertNoteTemplate(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    name = models.TextField(_('name'), blank=True, null=True)
-    body = models.TextField(_('body'), blank=True, null=True)
+    name = LongCharField(_('name'), blank=True, null=True)
+    body = LongCharField(_('body'), blank=True, null=True)
 
     def __str__(self):
         return 'ExpertNoteTemplate ' + self.name

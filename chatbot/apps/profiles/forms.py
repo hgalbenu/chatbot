@@ -4,7 +4,7 @@ from django.forms.models import ModelForm
 from django.forms import fields, widgets
 
 from .models import UserProfile, ExpertNoteTemplate
-from ..common.fields import NameModelChoiceField
+from ..common.form_fields import NameModelChoiceField
 
 
 # Choices for status change select fields - will map display values to user status timestamp field names.

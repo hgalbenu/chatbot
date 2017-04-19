@@ -5,16 +5,18 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from django.contrib.postgres.fields import JSONField
 
+from ..common.model_fields import LongCharField
+
 
 class MotionAI(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    session_id = models.TextField(_('session id'), blank=True, null=True)
+    session_id = LongCharField(_('session id'), blank=True, null=True)
 
     bot_id = models.PositiveIntegerField(_('bot id'), blank=True, null=True)
     module_id = models.PositiveIntegerField(_('module id'), blank=True, null=True)
 
-    reply = models.TextField(_('reply'), blank=True, null=True)
+    reply = LongCharField(_('reply'), blank=True, null=True)
 
     raw_data = JSONField(_('raw data'), blank=True, null=True)
 

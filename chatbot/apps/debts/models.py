@@ -5,15 +5,17 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
+from ..common.model_fields import LongCharField
+
 
 class Debt(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    creditor_name = models.TextField(_('creditor name'), blank=True, null=True)
-    collection_agency = models.TextField(_('collection agency'), blank=True, null=True)
-    type = models.TextField(_('type'), blank=True, null=True)
-    status = models.TextField(_('status'), blank=True, null=True)
-    money_movement = models.TextField(_('money movement'), blank=True, null=True)
+    creditor_name = LongCharField(_('creditor name'), blank=True, null=True)
+    collection_agency = LongCharField(_('collection agency'), blank=True, null=True)
+    type = LongCharField(_('type'), blank=True, null=True)
+    status = LongCharField(_('status'), blank=True, null=True)
+    money_movement = LongCharField(_('money movement'), blank=True, null=True)
 
     last_paid_at = models.DateField(_('last paid at'), blank=True, null=True)
 
