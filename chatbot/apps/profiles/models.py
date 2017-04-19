@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 
 from ..common.model_fields import LongCharField
+from ..common.utils import get_number
 
 from .heavenly import Heavenly
 from .intercom import Intercom
@@ -110,7 +111,7 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
 
     @property
     def profile_url(self):
-        return '{}/web/profile/{}'.format(settings.KIRKWOOD_URL, self.id)
+        return '{}/profile/{}'.format(settings.KIRKWOOD_URL, self.id)
 
     @property
     def full_name(self):
@@ -123,6 +124,21 @@ class UserProfile(TimeStampedModel, Heavenly, Intercom):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
+
+    def save(self, **kwargs):
+        # TODO: Refactor this
+        boolean_mapping = {
+            'yes': True,
+            'no': False
+        }
+
+        for field_name in ['is_married', 'additional_income_consistent', 'additional_income_amount']:
+            value = str(getattr(self, field_name)).lower()
+            if value in boolean_mapping.keys():
+                setattr(self, field_name, boolean_mapping[value])
+
+        setattr(self, 'revenue_potential', get_number(getattr(self, 'revenue_potential')))
+        return super(UserProfile, self).save(**kwargs)
 
     def __str__(self):
         return 'id: {} email: {}'.format(self.id, self.email)

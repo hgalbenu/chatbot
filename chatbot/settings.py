@@ -153,7 +153,7 @@ if ENVIRONMENT == 'STAGING':
 # Motion AI
 # MOTION_AI_API_KEY = os.environ.get('MOTION_AI_API_KEY')
 MOTION_AI_WEBHOOK_SECRET = os.environ.get('MOTION_AI_WEBHOOK_SECRET')
-MOTION_AI_DEBT_NEW = 478927,  # whenever we encounter this module, a new debt is being created
+MOTION_AI_DEBT_NEW = 478927  # whenever we encounter this module, a new debt is being created
 MOTION_AI_JOB_NEW = 478771  # whenever we encounter this module, a new debt is being created
 
 MOTION_AI_MODULE_MAPPING = {

@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
 from ..common.model_fields import LongCharField
+from ..common.utils import get_number
 
 
 class Debt(TimeStampedModel):
@@ -31,6 +32,13 @@ class Debt(TimeStampedModel):
         if self.last_paid_at is None:
             return None
         return (datetime.date.today() - self.last_paid_at).days
+
+    def save(self, **kwargs):
+        # TODO: Refactor this
+        setattr(self, 'balance', get_number(getattr(self, 'balance')))
+        setattr(self, 'interest_rate', get_number(getattr(self, 'interest_rate')))
+        setattr(self, 'monthly_payment', get_number(getattr(self, 'monthly_payment')))
+        return super(Debt, self).save(**kwargs)
 
     def __str__(self):
         return 'Debt ' + self.creditor_name

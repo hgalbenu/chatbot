@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.balance | stringformat:"${:,.2f}" |default:'-' }}
+                        {{ debt.balance | default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.interest_rate | multiply:100 | stringformat:"{:,.0f}%" | default:'-' }}
+                        {{ debt.interest_rate | multiply:100 | floatformat:0 | default:'-' }}
                     </h4>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-sm-7">
                     <h4 class="mg-md">
-                        {{ debt.monthly_payment | stringformat:"${:,.2f}" | default:'-' }}
+                        {{ debt.monthly_payment | default:'-' }}
                     </h4>
                 </div>
             </div>

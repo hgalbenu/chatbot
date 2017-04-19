@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
 from ..common.model_fields import LongCharField
+from ..common.utils import get_number
 
 
 class Job(TimeStampedModel):
@@ -18,6 +19,11 @@ class Job(TimeStampedModel):
 
     user_profile = models.ForeignKey('profiles.UserProfile', verbose_name=_('user profile'), related_name='jobs',
                                      help_text=_('The user profile that this job belongs to.'))
+
+    def save(self, **kwargs):
+        # TODO: Refactor this
+        setattr(self, 'income', get_number(getattr(self, 'income')))
+        return super(Job, self).save(**kwargs)
 
     def __str__(self):
         return 'Job ' + self.employer_name
