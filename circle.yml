@@ -1,0 +1,12 @@
+machine:
+  environment:
+    PYTHONPATH: /home/ubuntu/kirkwood
+    TEST_DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
+  python:
+    version: 3.6.0
+  services:
+    - postgresql
+
+test:
+  override:
+    - python3 manage.py test

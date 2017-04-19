@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 import sys
 import dj_database_url
+import raven
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'raven.contrib.django.raven_compat',
     'kirkwood.apps.common',
     'kirkwood.apps.creditors',
     'kirkwood.apps.debts',
@@ -149,6 +151,13 @@ DATABASES = {
 if ENVIRONMENT == 'STAGING':
     # Static file storage for Heroku
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+    RAVEN_CONFIG = {
+        'dsn': os.getenv('RAVEN_DSN'),
+        # If you are using git, you can also automatically configure the
+        # release based on the git info.
+        'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    }
 
 # Motion AI
 # MOTION_AI_API_KEY = os.environ.get('MOTION_AI_API_KEY')
@@ -275,5 +284,3 @@ INTERCOM_TOKEN = os.getenv('INTERCOM_TOKEN')
 # Other
 KIRKWOOD_URL = os.getenv('KIRKWOOD_URL')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
-# TODO: Actually integrate Raven with Django
-RAVEN_DSN = os.getenv('RAVEN_DSN')
